@@ -1,14 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\V1\TicketController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-
-Route::middleware('api')
-    ->prefix('v1') // 'api/v1' is for service providers.
-    ->group(base_path('routes/api_v1.php'));
-
+Route::apiResource('tickets', TicketController::class);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
