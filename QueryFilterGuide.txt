@@ -1,0 +1,178 @@
+1. the method from the controller we want to have filters on should be like this:
+
+
+public function index(TicketFilter $filters)
+    {
+        return TicketResource::collection(Ticket::filter($filters)->paginate());
+    }
+
+
+
+_________________________________________________________________________________________________
+2. so we need a TicketFilter class like this:
+
+
+namespace App\Http\Filters\V1;
+
+class TicketFilter extends QueryFilter //we'll get to why we need QueryFilter
+{
+
+    public function createdAt($value)
+    {
+        $dates = explode(',', $value);
+
+        if(count($dates) > 1)
+        {
+            return $this->builder->whereBetween('created_at', $dates);
+        }
+
+        return $this->builder->whereDate('created_at', $value);
+    }
+
+
+       // so that we can include=something in the query
+    public function include($value)
+    {
+        return $this->builder->with($value);
+    }
+
+    
+    // can have multiple comma separated values for status.
+    public function status($value)
+    {
+        return $this->builder->whereIn('status', explode(',', $value));
+    }
+
+    
+    // we can search and filter through title with this method
+    public function title($value)
+     {
+         $likeStr = str_replace('*', '%', $value);
+
+         return $this->builder->where('title', 'LIKE', $likeStr);
+     }
+
+
+     public function updatedAt($value)
+    {
+        $dates = explode(',', $value);
+
+        if(count($dates) > 1)
+        {
+            return $this->builder->whereBetween('updated_at', $dates);
+        }
+
+        return $this->builder->whereDate('updated_at', $value);
+    }
+}
+
+
+_________________________________________________________________________________________________
+3. it leads to having a scopeFilter method on the Model we want to apply filters to:
+
+
+public function scopeFilter(Builder $builder, QueryFilter $filters)
+    {
+        return $filters->apply($builder);
+    }
+
+
+
+_________________________________________________________________________________________________
+4. Since we might want to have filters on multiple Models, we need a QueryFilter abstract class:
+
+
+abstract class QueryFilter
+{
+    protected $builder;
+    protected $request;
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+
+    // to differentiate between includes and filters
+    protected function filter($arr)
+    {
+        foreach ($arr as $key => $value) {
+            if(method_exists($this, $key)) {
+                $this->$key($value);
+            }
+        }
+        return $this->builder;
+    }
+
+    public function apply(Builder $builder)
+    {
+        $this->builder = $builder;
+
+        foreach ($this->request->all() as $key => $value) {
+            if(method_exists($this, $key)) {
+                $this->$key($value);
+            }
+        }
+
+        return $builder;
+    }
+}
+
+
+_________________________________________________________________________________________
+5. Note that we must have proper relationships defined in the proper Model:
+
+public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+_________________________________________________________________________________________
+6. Also in the TicketResource in this case we must have proper includes:
+
+            'includes' => new UserResource($this->whenLoaded('author')),
+
+_________________________________________________________________________________________
+7. as mentioned in the QueryFilter, we can have a protected filter($arr) method to have
+filters as filter[column]=value in the url
+
+_________________________________________________________________________________________
+8. Our status method supports multiple comma separated values.
+
+_________________________________________________________________________________________
+9. We have a title($value) method for filtering through titles.
+
+public function title($value)
+     {
+         $likeStr = str_replace('*', '%', $value);
+
+         return $this->builder->where('title', 'LIKE', $likeStr);
+     }
+
+
+_________________________________________________________________________________________
+10. We can filter through dates with the createdAt($value) method.
+
+  public function createdAt($value)
+    {
+        $dates = explode(',', $value);
+
+        if(count($dates) > 1)
+        {
+            return $this->builder->whereBetween('created_at', $dates);
+        }
+
+        return $this->builder->whereDate('created_at', $value);
+    }
+
+
+___________________________________________________________________________________________
+11. We have the same implementation as createdAt for updatedAt.
+	
+works for a url like:
+
+tickets-please.test/api/v1/tickets?filter[createdAt]=2025-07-09,2025-07-11
+or
+tickets-please.test/api/v1/tickets?filter[updatedAt]=2025-07-09
+___________________________________________________________________________________________
+12. 
