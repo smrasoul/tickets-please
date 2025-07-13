@@ -5,6 +5,14 @@ namespace App\Http\Filters\V1;
 class AuthorFilter extends QueryFilter
 {
 
+    protected $sortables = [
+        'name',
+        'email',
+        'createdAt' => 'created_at',
+        'updatedAt' => 'updated_at',
+    ];
+
+
     public function createdAt($value)
     {
         $dates = explode(',', $value);
