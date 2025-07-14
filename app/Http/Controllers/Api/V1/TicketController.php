@@ -9,11 +9,16 @@ use App\Http\Requests\Api\V1\UpdateTicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
 use App\Models\User;
+use App\Policies\V1\TicketPolicy;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TicketController extends ApiController
 {
+
+    protected $policyClass = TicketPolicy::class;
+
     /**
      * Display a listing of the resource.
      */
@@ -72,6 +77,9 @@ class TicketController extends ApiController
         try {
             $ticket = Ticket::findOrFail($ticket_id);
 
+            // Policy Defined in AppServiceProvider because of the Folder Structure.
+            $this->isAble('update', $ticket);
+
             $model = $request->mappedAttributes();
 
             $ticket->update($model);
@@ -80,6 +88,8 @@ class TicketController extends ApiController
 
         } catch (ModelNotFoundException $exception) {
             return $this->error('Ticket cannot be found', 404);
+        } catch (AuthorizationException $exception) {
+            return $this->error('You are not authorized to update that resource.', 401);
         }
     }
 
