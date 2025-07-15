@@ -9,23 +9,23 @@ use App\Http\Requests\Api\V1\StoreTicketRequest;
 use App\Http\Requests\Api\V1\UpdateTicketRequest;
 use App\Http\Resources\V1\TicketResource;
 use App\Models\Ticket;
+use App\Models\User;
 use App\Policies\V1\TicketPolicy;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthorTicketsController extends ApiController
 {
 
     protected $policyClass = TicketPolicy::class;
 
-    public function index($author_id, TicketFilter $filter)
+    public function index(User $author, TicketFilter $filter)
     {
         return TicketResource::collection(
-            Ticket::where('user_id', $author_id)
+            Ticket::where('user_id', $author->id)
             ->filter($filter)
             ->paginate());
     }
 
-    public function store(StoreTicketRequest $request, $author_id)
+    public function store(StoreTicketRequest $request)
     {
 
             if($this->isAble('store', Ticket::class)){
@@ -37,40 +37,28 @@ class AuthorTicketsController extends ApiController
                 return new TicketResource(Ticket::create($model));
             }
 
-            return $this->error('You are not authorized to create that resource.', 401);
+            return $this->notAuthorized('You are not authorized to create that resource.');
 
     }
 
-    public function destroy($author_id, $ticket_id)
+    public function destroy(User $author, Ticket $ticket)
     {
-        try{
-            $ticket = Ticket::where('id', $ticket_id)
-                ->where('user_id', $author_id)
-                ->firstOrFail();
 
-            if($this->isAble('delete', Ticket::class)) {
+            if($this->isAble('delete', $ticket)) {
 
                 $ticket->delete();
                 return $this->ok('Ticket successfully deleted');
 
             }
 
-            return $this->error('You are not authorized to delete that resource.', 401);
+            return $this->notAuthorized('You are not authorized to delete that resource.');
 
-        } catch (ModelNotFoundException $exception){
-            return $this->error('Ticket cannot be found', 404);
-        }
     }
 
-    public function replace(ReplaceTicketRequest $request,  $author_id, $ticket_id)
+    public function replace(ReplaceTicketRequest $request,  User $author, Ticket $ticket)
     {
         // PUT
-        try {
-            $ticket = Ticket::where('id', $ticket_id)
-                            ->where('user_id', $author_id)
-                            ->firstOrFail();
-
-            if($this->isAble('replace', Ticket::class)) {
+            if($this->isAble('replace', $ticket)) {
 
                 $model = $request->mappedAttributes();
                 $ticket->update($model);
@@ -78,22 +66,14 @@ class AuthorTicketsController extends ApiController
 
             }
 
-            return $this->error('You are not authorized to update that resource.', 401);
+            return $this->notAuthorized('You are not authorized to update that resource.');
 
-        } catch (ModelNotFoundException $exception) {
-            return $this->error('Ticket cannot be found', 404);
-        }
     }
 
-    public function update(UpdateTicketRequest $request,  $author_id, $ticket_id)
+    public function update(UpdateTicketRequest $request,  User $author, Ticket $ticket)
     {
-        // PUT
-        try {
-            $ticket = Ticket::where('id', $ticket_id)
-                ->where('user_id', $author_id)
-                ->firstOrFail();
-
-            if($this->isAble('update', Ticket::class)) {
+        // PATCH
+            if($this->isAble('update', $ticket)) {
 
                 $model = $request->mappedAttributes();
                 $ticket->update($model);
@@ -101,10 +81,7 @@ class AuthorTicketsController extends ApiController
 
             }
 
-            return $this->error('You are not authorized to update that resource.', 401);
+            return $this->notAuthorized('You are not authorized to update that resource.');
 
-        } catch (ModelNotFoundException $exception) {
-            return $this->error('Ticket cannot be found', 404);
-        }
     }
 }

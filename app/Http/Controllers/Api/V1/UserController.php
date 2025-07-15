@@ -9,7 +9,6 @@ use App\Http\Requests\Api\V1\UpdateUserRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use App\Policies\V1\UserPolicy;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserController extends ApiController
 {
@@ -35,7 +34,7 @@ class UserController extends ApiController
 
         }
 
-        return $this->error('You are not authorized to create that resource.', 401);
+        return $this->notAuthorized('You are not authorized to create that resource.');
     }
 
     /**
@@ -54,12 +53,9 @@ class UserController extends ApiController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, $user_id)
+    public function update(UpdateUserRequest $request, User $user)
     {
         // PATCH
-        try {
-            $user = User::findOrFail($user_id);
-
             // Policy Defined in AppServiceProvider because of the Folder Structure.
             if($this->isAble('update', $user)){
 
@@ -69,19 +65,13 @@ class UserController extends ApiController
 
             }
 
-            return $this->error('You are not authorized to update that resource.', 401);
+            return $this->notAuthorized('You are not authorized to update that resource.');
 
-        } catch (ModelNotFoundException $exception) {
-            return $this->error('User cannot be found', 404);
-        }
     }
 
-    public function replace(ReplaceUserRequest $request, $user_id)
+    public function replace(ReplaceUserRequest $request, User $user)
     {
         // PUT
-        try {
-            $user = User::findOrFail($user_id);
-
             if($this->isAble('update', $user)){
 
                 $model = $request->mappedAttributes();
@@ -90,21 +80,15 @@ class UserController extends ApiController
 
             }
 
-            return $this->error('You are not authorized to update that resource.', 401);
+            return $this->notAuthorized('You are not authorized to update that resource.');
 
-        } catch (ModelNotFoundException $exception) {
-            return $this->error('User cannot be found', 404);
-        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($user_id)
+    public function destroy(User $user)
     {
-        try {
-
-            $user = User::findOrFail($user_id);
 
             if($this->isAble('delete', $user)){
 
@@ -113,10 +97,7 @@ class UserController extends ApiController
 
             }
 
-            return $this->error('You are not authorized to delete that resource.', 401);
+            return $this->notAuthorized('You are not authorized to delete that resource.');
 
-        } catch (ModelNotFoundException $exception) {
-            return $this->error('User cannot be found', 404);
-        }
     }
 }
