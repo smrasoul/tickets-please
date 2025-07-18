@@ -1,0 +1,3255 @@
+openapi: 3.0.3
+info:
+  title: 'Tickets Please API Documentation'
+  description: ''
+  version: 1.0.0
+servers:
+  -
+    url: 'http://tickets-please.test'
+tags:
+  -
+    name: Authentication
+    description: ''
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: 'Managing Tickets'
+    description: ''
+components:
+  securitySchemes:
+    default:
+      type: http
+      scheme: bearer
+      description: 'You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.'
+security:
+  -
+    default: []
+paths:
+  /api/login:
+    post:
+      summary: Login
+      operationId: login
+      description: "Authenticates the user and returns the user's API token."
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    token: '{YOUR_AUTH_KEY}'
+                  message: Authenticated
+                  status: 200
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      token:
+                        type: string
+                        example: '{YOUR_AUTH_KEY}'
+                  message:
+                    type: string
+                    example: Authenticated
+                  status:
+                    type: integer
+                    example: 200
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address. Must not be greater than 255 characters.'
+                  example: gbailey@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: 'Must be at least 4 characters.'
+                  example: '+-0pBNvYgxwmi/#iw'
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: Logout
+      operationId: logout
+      description: 'Signs out the user and destroys the API token.'
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {  }
+                properties: {  }
+      tags:
+        - Authentication
+  '/api/v1/tickets/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: Ticket
+                    id: 1
+                    attributes:
+                      title: 'tenetur maiores rerum'
+                      description: 'Itaque aperiam qui ipsa pariatur. Iusto ipsam enim voluptatum sint optio laborum eius eius. Occaecati qui esse architecto cum facere.'
+                      status: C
+                      createdAt: '2025-07-14T16:06:43.000000Z'
+                      updatedAt: '2025-07-14T16:06:43.000000Z'
+                    relationships:
+                      author:
+                        data:
+                          type: user
+                          id: 9
+                        links:
+                          self: 'http://tickets-please.test/api/v1/authors/9'
+                    links:
+                      self: 'http://tickets-please.test/api/v1/tickets/1'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: Ticket
+                      id:
+                        type: integer
+                        example: 1
+                      attributes:
+                        type: object
+                        properties:
+                          title:
+                            type: string
+                            example: 'tenetur maiores rerum'
+                          description:
+                            type: string
+                            example: 'Itaque aperiam qui ipsa pariatur. Iusto ipsam enim voluptatum sint optio laborum eius eius. Occaecati qui esse architecto cum facere.'
+                          status:
+                            type: string
+                            example: C
+                          createdAt:
+                            type: string
+                            example: '2025-07-14T16:06:43.000000Z'
+                          updatedAt:
+                            type: string
+                            example: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        type: object
+                        properties:
+                          author:
+                            type: object
+                            properties:
+                              data:
+                                type: object
+                                properties:
+                                  type:
+                                    type: string
+                                    example: user
+                                  id:
+                                    type: integer
+                                    example: 9
+                              links:
+                                type: object
+                                properties:
+                                  self:
+                                    type: string
+                                    example: 'http://tickets-please.test/api/v1/authors/9'
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+                            example: 'http://tickets-please.test/api/v1/tickets/1'
+      tags:
+        - Endpoints
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/tickets/{ticket_id}':
+    put:
+      summary: ''
+      operationId: putApiV1TicketsTicket_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Eius et animi quos velit et.'
+                          nullable: false
+                        status:
+                          type: string
+                          description: ''
+                          example: A
+                          nullable: false
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                      required:
+                        - title
+                        - description
+                        - status
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          nullable: false
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              nullable: false
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 16
+                                  nullable: false
+                              required:
+                                - id
+    patch:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Eius et animi quos velit et.'
+                          nullable: false
+                        status:
+                          type: string
+                          description: ''
+                          example: H
+                          nullable: false
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          nullable: false
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              nullable: false
+                              properties:
+                                id:
+                                  type: string
+                                  description: ''
+                                  example: null
+                                  nullable: false
+    parameters:
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/users:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      type: user
+                      id: 1
+                      attributes:
+                        name: 'Ms. Athena Baumbach II'
+                        email: lind.bettye@example.org
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/1'
+                    -
+                      type: user
+                      id: 2
+                      attributes:
+                        name: 'Vena Smith V'
+                        email: dare.ignacio@example.com
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/2'
+                    -
+                      type: user
+                      id: 3
+                      attributes:
+                        name: 'Eunice Labadie'
+                        email: trystan83@example.net
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/3'
+                    -
+                      type: user
+                      id: 4
+                      attributes:
+                        name: 'Rahul Lesch'
+                        email: ofriesen@example.org
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/4'
+                    -
+                      type: user
+                      id: 5
+                      attributes:
+                        name: 'Rubie Stracke V'
+                        email: acasper@example.net
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/5'
+                    -
+                      type: user
+                      id: 6
+                      attributes:
+                        name: 'Ellis Hirthe'
+                        email: owaelchi@example.net
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/6'
+                    -
+                      type: user
+                      id: 7
+                      attributes:
+                        name: 'Kianna King'
+                        email: maudie25@example.net
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/7'
+                    -
+                      type: user
+                      id: 8
+                      attributes:
+                        name: 'Kasey Gislason'
+                        email: schumm.dannie@example.org
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/8'
+                    -
+                      type: user
+                      id: 9
+                      attributes:
+                        name: 'Devon Jacobson'
+                        email: huels.fred@example.org
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/9'
+                    -
+                      type: user
+                      id: 10
+                      attributes:
+                        name: 'Zoie Kunde I'
+                        email: celine97@example.org
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/10'
+                    -
+                      type: user
+                      id: 11
+                      attributes:
+                        name: 'The Manager'
+                        email: manager@manager.com
+                        isManager: true
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/11'
+                    -
+                      type: user
+                      id: 14
+                      attributes:
+                        name: Scribe
+                        email: scribe@knuckles.wtf
+                        isManager: false
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/14'
+                  links:
+                    first: 'http://tickets-please.test/api/v1/users?page=1'
+                    last: 'http://tickets-please.test/api/v1/users?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/users?page=1'
+                        label: '1'
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    path: 'http://tickets-please.test/api/v1/users'
+                    per_page: 15
+                    to: 12
+                    total: 12
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        type: user
+                        id: 1
+                        attributes:
+                          name: 'Ms. Athena Baumbach II'
+                          email: lind.bettye@example.org
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/1'
+                      -
+                        type: user
+                        id: 2
+                        attributes:
+                          name: 'Vena Smith V'
+                          email: dare.ignacio@example.com
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/2'
+                      -
+                        type: user
+                        id: 3
+                        attributes:
+                          name: 'Eunice Labadie'
+                          email: trystan83@example.net
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/3'
+                      -
+                        type: user
+                        id: 4
+                        attributes:
+                          name: 'Rahul Lesch'
+                          email: ofriesen@example.org
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/4'
+                      -
+                        type: user
+                        id: 5
+                        attributes:
+                          name: 'Rubie Stracke V'
+                          email: acasper@example.net
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/5'
+                      -
+                        type: user
+                        id: 6
+                        attributes:
+                          name: 'Ellis Hirthe'
+                          email: owaelchi@example.net
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/6'
+                      -
+                        type: user
+                        id: 7
+                        attributes:
+                          name: 'Kianna King'
+                          email: maudie25@example.net
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/7'
+                      -
+                        type: user
+                        id: 8
+                        attributes:
+                          name: 'Kasey Gislason'
+                          email: schumm.dannie@example.org
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/8'
+                      -
+                        type: user
+                        id: 9
+                        attributes:
+                          name: 'Devon Jacobson'
+                          email: huels.fred@example.org
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/9'
+                      -
+                        type: user
+                        id: 10
+                        attributes:
+                          name: 'Zoie Kunde I'
+                          email: celine97@example.org
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/10'
+                      -
+                        type: user
+                        id: 11
+                        attributes:
+                          name: 'The Manager'
+                          email: manager@manager.com
+                          isManager: true
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/11'
+                      -
+                        type: user
+                        id: 14
+                        attributes:
+                          name: Scribe
+                          email: scribe@knuckles.wtf
+                          isManager: false
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/14'
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: user
+                        id:
+                          type: integer
+                          example: 1
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 'Ms. Athena Baumbach II'
+                            email:
+                              type: string
+                              example: lind.bettye@example.org
+                            isManager:
+                              type: boolean
+                              example: false
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                              example: 'http://tickets-please.test/api/v1/users/1'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/users?page=1'
+                      last:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/users?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/users?page=1'
+                            label: '1'
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/users'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: integer
+                        example: 12
+                      total:
+                        type: integer
+                        example: 12
+      tags:
+        - Endpoints
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        name:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        email:
+                          type: string
+                          description: 'Must be a valid email address.'
+                          example: zbailey@example.net
+                          nullable: false
+                        isManager:
+                          type: boolean
+                          description: ''
+                          example: true
+                          nullable: false
+                        password:
+                          type: string
+                          description: ''
+                          example: '|]|{+-'
+                          nullable: false
+                      required:
+                        - name
+                        - email
+                        - isManager
+                        - password
+  '/api/v1/users/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    id: 1
+                    attributes:
+                      name: 'Ms. Athena Baumbach II'
+                      email: lind.bettye@example.org
+                      isManager: false
+                    links:
+                      self: 'http://tickets-please.test/api/v1/users/1'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      id:
+                        type: integer
+                        example: 1
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'Ms. Athena Baumbach II'
+                          email:
+                            type: string
+                            example: lind.bettye@example.org
+                          isManager:
+                            type: boolean
+                            example: false
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+                            example: 'http://tickets-please.test/api/v1/users/1'
+      tags:
+        - Endpoints
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/users/{user_id}':
+    put:
+      summary: ''
+      operationId: putApiV1UsersUser_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        name:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        email:
+                          type: string
+                          description: 'Must be a valid email address.'
+                          example: zbailey@example.net
+                          nullable: false
+                        isManager:
+                          type: boolean
+                          description: ''
+                          example: false
+                          nullable: false
+                        password:
+                          type: string
+                          description: ''
+                          example: '|]|{+-'
+                          nullable: false
+                      required:
+                        - name
+                        - email
+                        - isManager
+                        - password
+    patch:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        name:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        email:
+                          type: string
+                          description: 'Must be a valid email address.'
+                          example: zbailey@example.net
+                          nullable: false
+                        isManager:
+                          type: boolean
+                          description: ''
+                          example: false
+                          nullable: false
+                        password:
+                          type: string
+                          description: ''
+                          example: '|]|{+-'
+                          nullable: false
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/authors:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      type: user
+                      id: 1
+                      attributes:
+                        name: 'Ms. Athena Baumbach II'
+                        email: lind.bettye@example.org
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/1'
+                    -
+                      type: user
+                      id: 2
+                      attributes:
+                        name: 'Vena Smith V'
+                        email: dare.ignacio@example.com
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/2'
+                    -
+                      type: user
+                      id: 3
+                      attributes:
+                        name: 'Eunice Labadie'
+                        email: trystan83@example.net
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/3'
+                    -
+                      type: user
+                      id: 4
+                      attributes:
+                        name: 'Rahul Lesch'
+                        email: ofriesen@example.org
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/4'
+                    -
+                      type: user
+                      id: 5
+                      attributes:
+                        name: 'Rubie Stracke V'
+                        email: acasper@example.net
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/5'
+                    -
+                      type: user
+                      id: 6
+                      attributes:
+                        name: 'Ellis Hirthe'
+                        email: owaelchi@example.net
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/6'
+                    -
+                      type: user
+                      id: 7
+                      attributes:
+                        name: 'Kianna King'
+                        email: maudie25@example.net
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/7'
+                    -
+                      type: user
+                      id: 8
+                      attributes:
+                        name: 'Kasey Gislason'
+                        email: schumm.dannie@example.org
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/8'
+                    -
+                      type: user
+                      id: 9
+                      attributes:
+                        name: 'Devon Jacobson'
+                        email: huels.fred@example.org
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/9'
+                    -
+                      type: user
+                      id: 10
+                      attributes:
+                        name: 'Zoie Kunde I'
+                        email: celine97@example.org
+                        isManager: false
+                        emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/10'
+                    -
+                      type: user
+                      id: 11
+                      attributes:
+                        name: 'The Manager'
+                        email: manager@manager.com
+                        isManager: true
+                        emailVerifiedAt: null
+                        createdAt: '2025-07-14T16:06:44.000000Z'
+                        updatedAt: '2025-07-14T16:06:44.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/11'
+                    -
+                      type: user
+                      id: 14
+                      attributes:
+                        name: Scribe
+                        email: scribe@knuckles.wtf
+                        isManager: false
+                        emailVerifiedAt: null
+                        createdAt: '2025-07-18T19:40:48.000000Z'
+                        updatedAt: '2025-07-18T19:40:48.000000Z'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/users/14'
+                  links:
+                    first: 'http://tickets-please.test/api/v1/authors?page=1'
+                    last: 'http://tickets-please.test/api/v1/authors?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/authors?page=1'
+                        label: '1'
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    path: 'http://tickets-please.test/api/v1/authors'
+                    per_page: 15
+                    to: 12
+                    total: 12
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        type: user
+                        id: 1
+                        attributes:
+                          name: 'Ms. Athena Baumbach II'
+                          email: lind.bettye@example.org
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/1'
+                      -
+                        type: user
+                        id: 2
+                        attributes:
+                          name: 'Vena Smith V'
+                          email: dare.ignacio@example.com
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/2'
+                      -
+                        type: user
+                        id: 3
+                        attributes:
+                          name: 'Eunice Labadie'
+                          email: trystan83@example.net
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/3'
+                      -
+                        type: user
+                        id: 4
+                        attributes:
+                          name: 'Rahul Lesch'
+                          email: ofriesen@example.org
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/4'
+                      -
+                        type: user
+                        id: 5
+                        attributes:
+                          name: 'Rubie Stracke V'
+                          email: acasper@example.net
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/5'
+                      -
+                        type: user
+                        id: 6
+                        attributes:
+                          name: 'Ellis Hirthe'
+                          email: owaelchi@example.net
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/6'
+                      -
+                        type: user
+                        id: 7
+                        attributes:
+                          name: 'Kianna King'
+                          email: maudie25@example.net
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/7'
+                      -
+                        type: user
+                        id: 8
+                        attributes:
+                          name: 'Kasey Gislason'
+                          email: schumm.dannie@example.org
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/8'
+                      -
+                        type: user
+                        id: 9
+                        attributes:
+                          name: 'Devon Jacobson'
+                          email: huels.fred@example.org
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/9'
+                      -
+                        type: user
+                        id: 10
+                        attributes:
+                          name: 'Zoie Kunde I'
+                          email: celine97@example.org
+                          isManager: false
+                          emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/10'
+                      -
+                        type: user
+                        id: 11
+                        attributes:
+                          name: 'The Manager'
+                          email: manager@manager.com
+                          isManager: true
+                          emailVerifiedAt: null
+                          createdAt: '2025-07-14T16:06:44.000000Z'
+                          updatedAt: '2025-07-14T16:06:44.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/11'
+                      -
+                        type: user
+                        id: 14
+                        attributes:
+                          name: Scribe
+                          email: scribe@knuckles.wtf
+                          isManager: false
+                          emailVerifiedAt: null
+                          createdAt: '2025-07-18T19:40:48.000000Z'
+                          updatedAt: '2025-07-18T19:40:48.000000Z'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/users/14'
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: user
+                        id:
+                          type: integer
+                          example: 1
+                        attributes:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              example: 'Ms. Athena Baumbach II'
+                            email:
+                              type: string
+                              example: lind.bettye@example.org
+                            isManager:
+                              type: boolean
+                              example: false
+                            emailVerifiedAt:
+                              type: string
+                              example: '2025-07-14T16:06:43.000000Z'
+                            createdAt:
+                              type: string
+                              example: '2025-07-14T16:06:43.000000Z'
+                            updatedAt:
+                              type: string
+                              example: '2025-07-14T16:06:43.000000Z'
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                              example: 'http://tickets-please.test/api/v1/users/1'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/authors?page=1'
+                      last:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/authors?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/authors?page=1'
+                            label: '1'
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/authors'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: integer
+                        example: 12
+                      total:
+                        type: integer
+                        example: 12
+      tags:
+        - Endpoints
+  '/api/v1/authors/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    type: user
+                    id: 1
+                    attributes:
+                      name: 'Ms. Athena Baumbach II'
+                      email: lind.bettye@example.org
+                      isManager: false
+                      emailVerifiedAt: '2025-07-14T16:06:43.000000Z'
+                      createdAt: '2025-07-14T16:06:43.000000Z'
+                      updatedAt: '2025-07-14T16:06:43.000000Z'
+                    links:
+                      self: 'http://tickets-please.test/api/v1/users/1'
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      type:
+                        type: string
+                        example: user
+                      id:
+                        type: integer
+                        example: 1
+                      attributes:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            example: 'Ms. Athena Baumbach II'
+                          email:
+                            type: string
+                            example: lind.bettye@example.org
+                          isManager:
+                            type: boolean
+                            example: false
+                          emailVerifiedAt:
+                            type: string
+                            example: '2025-07-14T16:06:43.000000Z'
+                          createdAt:
+                            type: string
+                            example: '2025-07-14T16:06:43.000000Z'
+                          updatedAt:
+                            type: string
+                            example: '2025-07-14T16:06:43.000000Z'
+                      links:
+                        type: object
+                        properties:
+                          self:
+                            type: string
+                            example: 'http://tickets-please.test/api/v1/users/1'
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/authors/{author_id}/tickets':
+    get:
+      summary: ''
+      operationId: getApiV1AuthorsAuthor_idTickets
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      type: Ticket
+                      id: 5
+                      attributes:
+                        title: 'aut aut pariatur'
+                        status: H
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:55:51.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/5'
+                    -
+                      type: Ticket
+                      id: 17
+                      attributes:
+                        title: 'est saepe facere'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/17'
+                    -
+                      type: Ticket
+                      id: 19
+                      attributes:
+                        title: 'aut ullam a'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/19'
+                    -
+                      type: Ticket
+                      id: 31
+                      attributes:
+                        title: 'quis nobis magnam'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/31'
+                    -
+                      type: Ticket
+                      id: 43
+                      attributes:
+                        title: 'cupiditate et laboriosam'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/43'
+                    -
+                      type: Ticket
+                      id: 52
+                      attributes:
+                        title: 'voluptatem ipsum ut'
+                        status: A
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/52'
+                    -
+                      type: Ticket
+                      id: 74
+                      attributes:
+                        title: 'qui porro dolorem'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/74'
+                    -
+                      type: Ticket
+                      id: 80
+                      attributes:
+                        title: 'non unde dolore'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/80'
+                    -
+                      type: Ticket
+                      id: 96
+                      attributes:
+                        title: 'inventore ut hic'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/96'
+                    -
+                      type: Ticket
+                      id: 101
+                      attributes:
+                        title: 'Post Ticket X'
+                        status: A
+                        createdAt: '2025-07-14T16:57:56.000000Z'
+                        updatedAt: '2025-07-14T16:57:56.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/101'
+                    -
+                      type: Ticket
+                      id: 102
+                      attributes:
+                        title: 'check Ticket'
+                        status: A
+                        createdAt: '2025-07-14T19:24:15.000000Z'
+                        updatedAt: '2025-07-14T19:24:15.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/102'
+                    -
+                      type: Ticket
+                      id: 105
+                      attributes:
+                        title: PatchedDDDD
+                        status: A
+                        createdAt: '2025-07-14T20:07:10.000000Z'
+                        updatedAt: '2025-07-15T13:44:45.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/105'
+                    -
+                      type: Ticket
+                      id: 106
+                      attributes:
+                        title: 'Patched Again and again'
+                        status: A
+                        createdAt: '2025-07-14T20:07:38.000000Z'
+                        updatedAt: '2025-07-14T20:09:31.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/106'
+                  links:
+                    first: 'http://tickets-please.test/api/v1/authors/1/tickets?page=1'
+                    last: 'http://tickets-please.test/api/v1/authors/1/tickets?page=1'
+                    prev: null
+                    next: null
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 1
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/authors/1/tickets?page=1'
+                        label: '1'
+                        active: true
+                      -
+                        url: null
+                        label: 'Next &raquo;'
+                        active: false
+                    path: 'http://tickets-please.test/api/v1/authors/1/tickets'
+                    per_page: 15
+                    to: 13
+                    total: 13
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        type: Ticket
+                        id: 5
+                        attributes:
+                          title: 'aut aut pariatur'
+                          status: H
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:55:51.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/5'
+                      -
+                        type: Ticket
+                        id: 17
+                        attributes:
+                          title: 'est saepe facere'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/17'
+                      -
+                        type: Ticket
+                        id: 19
+                        attributes:
+                          title: 'aut ullam a'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/19'
+                      -
+                        type: Ticket
+                        id: 31
+                        attributes:
+                          title: 'quis nobis magnam'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/31'
+                      -
+                        type: Ticket
+                        id: 43
+                        attributes:
+                          title: 'cupiditate et laboriosam'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/43'
+                      -
+                        type: Ticket
+                        id: 52
+                        attributes:
+                          title: 'voluptatem ipsum ut'
+                          status: A
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/52'
+                      -
+                        type: Ticket
+                        id: 74
+                        attributes:
+                          title: 'qui porro dolorem'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/74'
+                      -
+                        type: Ticket
+                        id: 80
+                        attributes:
+                          title: 'non unde dolore'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/80'
+                      -
+                        type: Ticket
+                        id: 96
+                        attributes:
+                          title: 'inventore ut hic'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/96'
+                      -
+                        type: Ticket
+                        id: 101
+                        attributes:
+                          title: 'Post Ticket X'
+                          status: A
+                          createdAt: '2025-07-14T16:57:56.000000Z'
+                          updatedAt: '2025-07-14T16:57:56.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/101'
+                      -
+                        type: Ticket
+                        id: 102
+                        attributes:
+                          title: 'check Ticket'
+                          status: A
+                          createdAt: '2025-07-14T19:24:15.000000Z'
+                          updatedAt: '2025-07-14T19:24:15.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/102'
+                      -
+                        type: Ticket
+                        id: 105
+                        attributes:
+                          title: PatchedDDDD
+                          status: A
+                          createdAt: '2025-07-14T20:07:10.000000Z'
+                          updatedAt: '2025-07-15T13:44:45.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/105'
+                      -
+                        type: Ticket
+                        id: 106
+                        attributes:
+                          title: 'Patched Again and again'
+                          status: A
+                          createdAt: '2025-07-14T20:07:38.000000Z'
+                          updatedAt: '2025-07-14T20:09:31.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/106'
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: Ticket
+                        id:
+                          type: integer
+                          example: 5
+                        attributes:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                              example: 'aut aut pariatur'
+                            status:
+                              type: string
+                              example: H
+                            createdAt:
+                              type: string
+                              example: '2025-07-14T16:06:43.000000Z'
+                            updatedAt:
+                              type: string
+                              example: '2025-07-14T16:55:51.000000Z'
+                        relationships:
+                          type: object
+                          properties:
+                            author:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      example: user
+                                    id:
+                                      type: integer
+                                      example: 1
+                                links:
+                                  type: object
+                                  properties:
+                                    self:
+                                      type: string
+                                      example: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                              example: 'http://tickets-please.test/api/v1/tickets/5'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/authors/1/tickets?page=1'
+                      last:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/authors/1/tickets?page=1'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: null
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 1
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/authors/1/tickets?page=1'
+                            label: '1'
+                            active: true
+                          -
+                            url: null
+                            label: 'Next &raquo;'
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/authors/1/tickets'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: integer
+                        example: 13
+                      total:
+                        type: integer
+                        example: 13
+      tags:
+        - Endpoints
+    post:
+      summary: ''
+      operationId: postApiV1AuthorsAuthor_idTickets
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        title:
+                          type: string
+                          description: 'The title of the ticket.'
+                          example: No-example
+                          nullable: false
+                        description:
+                          type: string
+                          description: 'The description of the ticket.'
+                          example: No-example
+                          nullable: false
+                        status:
+                          type: string
+                          description: 'The status of the ticket.'
+                          example: No-example
+                          nullable: false
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                      required:
+                        - title
+                        - description
+                        - status
+                  required:
+                    - attributes
+                author:
+                  type: integer
+                  description: 'The author assigned to the ticket. The <code>id</code> of an existing record in the users table.'
+                  example: 0
+                  nullable: false
+              required:
+                - data
+                - author
+    parameters:
+      -
+        in: path
+        name: author_id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/authors/{author_id}/tickets/{id}':
+    delete:
+      summary: ''
+      operationId: deleteApiV1AuthorsAuthor_idTicketsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+    parameters:
+      -
+        in: path
+        name: author_id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  '/api/v1/authors/{author_id}/tickets/{ticket_id}':
+    put:
+      summary: ''
+      operationId: putApiV1AuthorsAuthor_idTicketsTicket_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Eius et animi quos velit et.'
+                          nullable: false
+                        status:
+                          type: string
+                          description: ''
+                          example: X
+                          nullable: false
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                      required:
+                        - title
+                        - description
+                        - status
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          nullable: false
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              nullable: false
+                              properties:
+                                id:
+                                  type: integer
+                                  description: ''
+                                  example: 16
+                                  nullable: false
+                              required:
+                                - id
+    patch:
+      summary: ''
+      operationId: patchApiV1AuthorsAuthor_idTicketsTicket_id
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        title:
+                          type: string
+                          description: ''
+                          example: architecto
+                          nullable: false
+                        description:
+                          type: string
+                          description: ''
+                          example: 'Eius et animi quos velit et.'
+                          nullable: false
+                        status:
+                          type: string
+                          description: ''
+                          example: A
+                          nullable: false
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          nullable: false
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              nullable: false
+                              properties:
+                                id:
+                                  type: string
+                                  description: ''
+                                  example: null
+                                  nullable: false
+    parameters:
+      -
+        in: path
+        name: author_id
+        description: 'The ID of the author.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+      -
+        in: path
+        name: ticket_id
+        description: 'The ID of the ticket.'
+        example: 1
+        required: true
+        schema:
+          type: integer
+  /api/v1/user:
+    get:
+      summary: ''
+      operationId: getApiV1User
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 14
+                  name: Scribe
+                  email: scribe@knuckles.wtf
+                  email_verified_at: null
+                  is_manager: false
+                  created_at: '2025-07-18T19:40:48.000000Z'
+                  updated_at: '2025-07-18T19:40:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 14
+                  name:
+                    type: string
+                    example: Scribe
+                  email:
+                    type: string
+                    example: scribe@knuckles.wtf
+                  email_verified_at:
+                    type: string
+                    example: null
+                  is_manager:
+                    type: boolean
+                    example: false
+                  created_at:
+                    type: string
+                    example: '2025-07-18T19:40:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2025-07-18T19:40:48.000000Z'
+      tags:
+        - Endpoints
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  id: 14
+                  name: Scribe
+                  email: scribe@knuckles.wtf
+                  email_verified_at: null
+                  is_manager: false
+                  created_at: '2025-07-18T19:40:48.000000Z'
+                  updated_at: '2025-07-18T19:40:48.000000Z'
+                properties:
+                  id:
+                    type: integer
+                    example: 14
+                  name:
+                    type: string
+                    example: Scribe
+                  email:
+                    type: string
+                    example: scribe@knuckles.wtf
+                  email_verified_at:
+                    type: string
+                    example: null
+                  is_manager:
+                    type: boolean
+                    example: false
+                  created_at:
+                    type: string
+                    example: '2025-07-18T19:40:48.000000Z'
+                  updated_at:
+                    type: string
+                    example: '2025-07-18T19:40:48.000000Z'
+      tags:
+        - Endpoints
+  /api/v1/tickets:
+    get:
+      summary: 'Get all tickets'
+      operationId: getAllTickets
+      description: ''
+      parameters:
+        -
+          in: query
+          name: sort
+          description: 'Data field(s) to sort by. Separate multiple fields with commas. Denote descending sort with a minus sign.'
+          example: 'sort=title,-CreatedAt'
+          required: false
+          schema:
+            type: string
+            description: 'Data field(s) to sort by. Separate multiple fields with commas. Denote descending sort with a minus sign.'
+            example: 'sort=title,-CreatedAt'
+            nullable: false
+        -
+          in: query
+          name: 'filter[status]'
+          description: 'Filter by status code: A, C, H, H.'
+          example: null
+          required: false
+          schema:
+            type: string
+            description: 'Filter by status code: A, C, H, H.'
+            example: null
+            nullable: false
+        -
+          in: query
+          name: 'filter[title]'
+          description: 'Filter by title. Wildcards are supported.'
+          example: '*fix*'
+          required: false
+          schema:
+            type: string
+            description: 'Filter by title. Wildcards are supported.'
+            example: '*fix*'
+            nullable: false
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    -
+                      type: Ticket
+                      id: 1
+                      attributes:
+                        title: 'tenetur maiores rerum'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 9
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/9'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/1'
+                    -
+                      type: Ticket
+                      id: 2
+                      attributes:
+                        title: 'veritatis odit quis'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 5
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/5'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/2'
+                    -
+                      type: Ticket
+                      id: 3
+                      attributes:
+                        title: 'nostrum ut explicabo'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 4
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/4'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/3'
+                    -
+                      type: Ticket
+                      id: 4
+                      attributes:
+                        title: 'ea consectetur ad'
+                        status: H
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 9
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/9'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/4'
+                    -
+                      type: Ticket
+                      id: 5
+                      attributes:
+                        title: 'aut aut pariatur'
+                        status: H
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:55:51.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 1
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/1'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/5'
+                    -
+                      type: Ticket
+                      id: 6
+                      attributes:
+                        title: 'voluptatum modi quis'
+                        status: A
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-18T18:39:05.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 6
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/6'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/6'
+                    -
+                      type: Ticket
+                      id: 7
+                      attributes:
+                        title: 'asperiores animi ut'
+                        status: A
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 7
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/7'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/7'
+                    -
+                      type: Ticket
+                      id: 8
+                      attributes:
+                        title: 'aliquam ut consequatur'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 5
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/5'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/8'
+                    -
+                      type: Ticket
+                      id: 9
+                      attributes:
+                        title: 'officia maxime unde'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 4
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/4'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/9'
+                    -
+                      type: Ticket
+                      id: 10
+                      attributes:
+                        title: 'commodi consequuntur molestiae'
+                        status: A
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 8
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/8'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/10'
+                    -
+                      type: Ticket
+                      id: 11
+                      attributes:
+                        title: 'nihil repellendus autem'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 7
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/7'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/11'
+                    -
+                      type: Ticket
+                      id: 12
+                      attributes:
+                        title: 'unde odit quam'
+                        status: C
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 9
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/9'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/12'
+                    -
+                      type: Ticket
+                      id: 13
+                      attributes:
+                        title: 'voluptas aut aut'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 4
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/4'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/13'
+                    -
+                      type: Ticket
+                      id: 14
+                      attributes:
+                        title: 'porro consequatur dolores'
+                        status: A
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 4
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/4'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/14'
+                    -
+                      type: Ticket
+                      id: 15
+                      attributes:
+                        title: 'molestiae et nihil'
+                        status: X
+                        createdAt: '2025-07-14T16:06:43.000000Z'
+                        updatedAt: '2025-07-14T16:06:43.000000Z'
+                      relationships:
+                        author:
+                          data:
+                            type: user
+                            id: 5
+                          links:
+                            self: 'http://tickets-please.test/api/v1/authors/5'
+                      links:
+                        self: 'http://tickets-please.test/api/v1/tickets/15'
+                  links:
+                    first: 'http://tickets-please.test/api/v1/tickets?page=1'
+                    last: 'http://tickets-please.test/api/v1/tickets?page=7'
+                    prev: null
+                    next: 'http://tickets-please.test/api/v1/tickets?page=2'
+                  meta:
+                    current_page: 1
+                    from: 1
+                    last_page: 7
+                    links:
+                      -
+                        url: null
+                        label: '&laquo; Previous'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=1'
+                        label: '1'
+                        active: true
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=2'
+                        label: '2'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=3'
+                        label: '3'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=4'
+                        label: '4'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=5'
+                        label: '5'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=6'
+                        label: '6'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=7'
+                        label: '7'
+                        active: false
+                      -
+                        url: 'http://tickets-please.test/api/v1/tickets?page=2'
+                        label: 'Next &raquo;'
+                        active: false
+                    path: 'http://tickets-please.test/api/v1/tickets'
+                    per_page: 15
+                    to: 15
+                    total: 104
+                properties:
+                  data:
+                    type: array
+                    example:
+                      -
+                        type: Ticket
+                        id: 1
+                        attributes:
+                          title: 'tenetur maiores rerum'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 9
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/9'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/1'
+                      -
+                        type: Ticket
+                        id: 2
+                        attributes:
+                          title: 'veritatis odit quis'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 5
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/5'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/2'
+                      -
+                        type: Ticket
+                        id: 3
+                        attributes:
+                          title: 'nostrum ut explicabo'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 4
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/4'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/3'
+                      -
+                        type: Ticket
+                        id: 4
+                        attributes:
+                          title: 'ea consectetur ad'
+                          status: H
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 9
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/9'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/4'
+                      -
+                        type: Ticket
+                        id: 5
+                        attributes:
+                          title: 'aut aut pariatur'
+                          status: H
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:55:51.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 1
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/1'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/5'
+                      -
+                        type: Ticket
+                        id: 6
+                        attributes:
+                          title: 'voluptatum modi quis'
+                          status: A
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-18T18:39:05.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 6
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/6'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/6'
+                      -
+                        type: Ticket
+                        id: 7
+                        attributes:
+                          title: 'asperiores animi ut'
+                          status: A
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 7
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/7'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/7'
+                      -
+                        type: Ticket
+                        id: 8
+                        attributes:
+                          title: 'aliquam ut consequatur'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 5
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/5'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/8'
+                      -
+                        type: Ticket
+                        id: 9
+                        attributes:
+                          title: 'officia maxime unde'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 4
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/4'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/9'
+                      -
+                        type: Ticket
+                        id: 10
+                        attributes:
+                          title: 'commodi consequuntur molestiae'
+                          status: A
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 8
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/8'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/10'
+                      -
+                        type: Ticket
+                        id: 11
+                        attributes:
+                          title: 'nihil repellendus autem'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 7
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/7'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/11'
+                      -
+                        type: Ticket
+                        id: 12
+                        attributes:
+                          title: 'unde odit quam'
+                          status: C
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 9
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/9'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/12'
+                      -
+                        type: Ticket
+                        id: 13
+                        attributes:
+                          title: 'voluptas aut aut'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 4
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/4'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/13'
+                      -
+                        type: Ticket
+                        id: 14
+                        attributes:
+                          title: 'porro consequatur dolores'
+                          status: A
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 4
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/4'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/14'
+                      -
+                        type: Ticket
+                        id: 15
+                        attributes:
+                          title: 'molestiae et nihil'
+                          status: X
+                          createdAt: '2025-07-14T16:06:43.000000Z'
+                          updatedAt: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          author:
+                            data:
+                              type: user
+                              id: 5
+                            links:
+                              self: 'http://tickets-please.test/api/v1/authors/5'
+                        links:
+                          self: 'http://tickets-please.test/api/v1/tickets/15'
+                    items:
+                      type: object
+                      properties:
+                        type:
+                          type: string
+                          example: Ticket
+                        id:
+                          type: integer
+                          example: 1
+                        attributes:
+                          type: object
+                          properties:
+                            title:
+                              type: string
+                              example: 'tenetur maiores rerum'
+                            status:
+                              type: string
+                              example: C
+                            createdAt:
+                              type: string
+                              example: '2025-07-14T16:06:43.000000Z'
+                            updatedAt:
+                              type: string
+                              example: '2025-07-14T16:06:43.000000Z'
+                        relationships:
+                          type: object
+                          properties:
+                            author:
+                              type: object
+                              properties:
+                                data:
+                                  type: object
+                                  properties:
+                                    type:
+                                      type: string
+                                      example: user
+                                    id:
+                                      type: integer
+                                      example: 9
+                                links:
+                                  type: object
+                                  properties:
+                                    self:
+                                      type: string
+                                      example: 'http://tickets-please.test/api/v1/authors/9'
+                        links:
+                          type: object
+                          properties:
+                            self:
+                              type: string
+                              example: 'http://tickets-please.test/api/v1/tickets/1'
+                  links:
+                    type: object
+                    properties:
+                      first:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/tickets?page=1'
+                      last:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/tickets?page=7'
+                      prev:
+                        type: string
+                        example: null
+                      next:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/tickets?page=2'
+                  meta:
+                    type: object
+                    properties:
+                      current_page:
+                        type: integer
+                        example: 1
+                      from:
+                        type: integer
+                        example: 1
+                      last_page:
+                        type: integer
+                        example: 7
+                      links:
+                        type: array
+                        example:
+                          -
+                            url: null
+                            label: '&laquo; Previous'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=1'
+                            label: '1'
+                            active: true
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=2'
+                            label: '2'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=3'
+                            label: '3'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=4'
+                            label: '4'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=5'
+                            label: '5'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=6'
+                            label: '6'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=7'
+                            label: '7'
+                            active: false
+                          -
+                            url: 'http://tickets-please.test/api/v1/tickets?page=2'
+                            label: 'Next &raquo;'
+                            active: false
+                        items:
+                          type: object
+                          properties:
+                            url:
+                              type: string
+                              example: null
+                            label:
+                              type: string
+                              example: '&laquo; Previous'
+                            active:
+                              type: boolean
+                              example: false
+                      path:
+                        type: string
+                        example: 'http://tickets-please.test/api/v1/tickets'
+                      per_page:
+                        type: integer
+                        example: 15
+                      to:
+                        type: integer
+                        example: 15
+                      total:
+                        type: integer
+                        example: 104
+      tags:
+        - 'Managing Tickets'
+    post:
+      summary: 'Create a tickets'
+      operationId: createATickets
+      description: 'Create a new ticket. Users can only create tickets for themselves. Managers can create tickets for any user.'
+      parameters: []
+      responses: {  }
+      tags:
+        - 'Managing Tickets'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  description: ''
+                  example: []
+                  nullable: false
+                  properties:
+                    attributes:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        title:
+                          type: string
+                          description: 'The title of the ticket.'
+                          example: No-example
+                          nullable: false
+                        description:
+                          type: string
+                          description: 'The description of the ticket.'
+                          example: No-example
+                          nullable: false
+                        status:
+                          type: string
+                          description: 'The status of the ticket.'
+                          example: No-example
+                          nullable: false
+                          enum:
+                            - A
+                            - C
+                            - H
+                            - X
+                      required:
+                        - title
+                        - description
+                        - status
+                    relationships:
+                      type: object
+                      description: ''
+                      example: []
+                      nullable: false
+                      properties:
+                        author:
+                          type: object
+                          description: ''
+                          example: []
+                          nullable: false
+                          properties:
+                            data:
+                              type: object
+                              description: ''
+                              example: []
+                              nullable: false
+                              properties:
+                                id:
+                                  type: integer
+                                  description: 'The author assigned to the ticket. The <code>id</code> of an existing record in the users table.'
+                                  example: 0
+                                  nullable: false
+                              required:
+                                - id
+                          required:
+                            - data
+                      required:
+                        - author
+                  required:
+                    - attributes
+                    - relationships
+              required:
+                - data

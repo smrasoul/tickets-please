@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Api\V1\ApiController;
 use App\Http\Filters\V1\TicketFilter;
 use App\Http\Requests\Api\V1\ReplaceTicketRequest;
 use App\Http\Requests\Api\V1\StoreTicketRequest;

@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\V1\TicketController;
 use App\Http\Controllers\Api\V1\AuthorsController;
+use App\Http\Controllers\Api\V1\AuthorTicketsController;
+use App\Http\Controllers\Api\V1\TicketController;
 use App\Http\Controllers\Api\V1\UserController;
-use App\Http\Controllers\AuthorTicketsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
