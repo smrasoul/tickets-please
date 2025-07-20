@@ -14,8 +14,37 @@ class UserController extends ApiController
 {
 
     protected $policyClass = UserPolicy::class;
+
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *      path="/api/v1/users",
+     *      operationId="getUsersList",
+     *      tags={"Users"},
+     *      summary="Get list of Users",
+     *      description="Returns list of Users",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="sort",
+     *          in="query",
+     *          description="Data field(s) to sort by. Separate multiple fields with commas. Denote descending sort with a minus sign. Example: sort=name,-createdAt",
+     *          required=false,
+     *      ),
+     *      @OA\Parameter(
+     *          name="filter[name]",
+     *          in="query",
+     *          description="Filter by name. Wildcards are supported. Example: \*fix\*
+    ",
+     *          required=false,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated"
+     *       )
+     *     )
      */
     public function index(AuthorFilter $filters)
     {
@@ -23,7 +52,26 @@ class UserController extends ApiController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Get(
+     *      path="/api/v1/users",
+     *      operationId="storeUser",
+     *      tags={"Users"},
+     *      summary="Store new user",
+     *      description="Returns user data",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation"
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthenticated"
+     *       ),
+     *     @OA\Response(
+     *            response=422,
+     *            description="Validation Error"
+     *        )
+     *     )
      */
     public function store(StoreUserRequest $request)
     {
